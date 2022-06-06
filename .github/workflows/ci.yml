@@ -27,6 +27,9 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
       - name: Build image
         run: docker build -t markdown-lint:local -f Dockerfile .
 
+      - name: Apply workaround
+        # workaround for https://github.com/DavidAnson/markdownlint-cli2/issues/50
+        run: cp lint/changelog/* tests/
       - name: Execute tests
         run: docker run --rm -t -v "$(pwd)/tests:/tests" -w "/tests" --entrypoint "" markdown-lint:local /tests/run.sh
 

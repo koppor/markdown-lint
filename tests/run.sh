@@ -33,9 +33,6 @@ runChangelogTest() {
   echo "[OK] Test passed";
 }
 
-# workaround for https://github.com/DavidAnson/markdownlint-cli2/issues/50
-cp /lint/changelog/* .
-
 runChangelogTest ./samples/changelog/correct/sample-1.md false
 runChangelogTest ./samples/changelog/correct/sample-2.md false
 runChangelogTest ./samples/changelog/correct/sample-3.md false
