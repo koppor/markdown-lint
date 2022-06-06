@@ -19,8 +19,8 @@ All docker images always can be found on **[this page][link_hub_tags]**.
 
 This image contains [markdownlint-cli2][markdownlint-cli2] (node-js) and:
 
-- Additional rules for `changelog` file linting _(`/lint/rules/changelog.js`)_
-- Configuration file for `changelog` file linting _(it uses additional linting rules, `/lint/config/changelog.yml`)_
+- Additional rules for `changelog` file linting _(`/lint/changelog/.markdownlint-cli2.yaml` and `/lint/changelog/changelog.js`)_
+- Configuration file for `changelog` file linting _(it uses additional linting rules, `/lint/changelog/.markdownlint.yml`)_
 
 > Major image tag can be updated in any time.
 
@@ -48,9 +48,8 @@ For example, you can lint your `CHANGELOG.md` file using following command:
 ```bash
 $ docker run --rm \
     -v "$(pwd)/CHANGELOG.md:/CHANGELOG.md:ro" \
-    avtodev/markdown-lint:v1 \
-    --rules /lint/rules/changelog.js \
-    --config /lint/config/changelog.yml \
+    avtodev/markdown-lint:v2 \
+    --config /lint/changelog/.markdownlint-cli2.yaml \
     /CHANGELOG.md
 ```
 
@@ -59,9 +58,8 @@ or
 ```bash
 $ docker run --rm \
     -v "$(pwd)/CHANGELOG.md:/CHANGELOG.md:ro" \
-    -e INPUT_RULES=/lint/rules/changelog.js \
-    -e INPUT_CONFIG=/lint/config/changelog.yml \
-    avtodev/markdown-lint:v1 \
+    -e INPUT_CONFIG=/lint/changelog/.markdownlint-cli2.yaml \
+    avtodev/markdown-lint:v2 \
     /CHANGELOG.md
 ```
 
@@ -77,20 +75,17 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Lint changelog file
-      uses: docker://avtodev/markdown-lint:v1 # fastest way
+      uses: docker://avtodev/markdown-lint:v2 # fastest way
       with:
-        rules: '/lint/rules/changelog.js'
-        config: '/lint/config/changelog.yml'
+        config: '/lint/changelog/.markdownlint-cli2.yaml'
         args: './CHANGELOG.md'
-        ignore: './one_file.md ./another_file.md' # multiple files must be separated with single space
 
     # Or using current repository as action:
 
     - name: Lint changelog file
-      uses: avto-dev/markdown-lint@v1
+      uses: avto-dev/markdown-lint@v2
       with:
-        rules: '/lint/rules/changelog.js'
-        config: '/lint/config/changelog.yml'
+        config: '/lint/changelog/.markdownlint-cli2.yaml'
         args: './CHANGELOG.md'
 ```
 
