@@ -4,7 +4,7 @@ author: avto-dev
 
 inputs: # <https://git.io/JvkYF#inputs>
   config:
-    description: 'Configuration file (JSON, JSONC, or YAML). Place a custom configuration file (e.g., .markdownlint.yml) next to this file to enable loading of it.'
+    description: 'Configuration file (JSON, JSONC, or YAML) for markdownlint-cli2 (e.g., `.markdownlint-cli2.yaml`). Place a custom configuration file (e.g., .markdownlint.yml) next to this file to enable loading of it.'
     required: false
   fix:
     description: 'Fix basic errors'
