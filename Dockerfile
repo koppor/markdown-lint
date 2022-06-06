@@ -9,6 +9,9 @@ LABEL \
     org.opencontainers.image.vendor="avto-dev" \
     org.opencontainers.image.licenses="MIT"
 
+# We need "bash" for shopt (used in docker-entrypoint.sh)
+RUN apk add --no-cache bash
+
 # copy additional image files
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
 COPY lint /lint
