@@ -1,0 +1,4 @@
+# The file extension of this file needs to be `yaml`, because `yml` is not supported
+
+customRules:
+  - "./changelog.js"

@@ -43,7 +43,7 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
         run: docker build -t markdown-lint:local -f Dockerfile .
 
       - name: Try to execute
-        run: docker run --rm markdown-lint:local --version
+        run: docker run --rm markdown-lint:local
 
   run-as-action:
     name: Run action
@@ -57,10 +57,8 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
       - name: Run current action using changelog file
         uses: ./
         with:
-          rules: '/lint/rules/changelog.js'
-          config: '/lint/config/changelog.yml'
+          config: '/lint/changelog/.markdownlint-cli2.yaml'
           args: './CHANGELOG.md'
-          ignore: './foo ./bar'
         env:
           DEBUG: 'true'
 
@@ -68,6 +66,5 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
         uses: ./
         with:
           args: './tests/correct.md'
-          ignore: './foo ./bar'
         env:
           DEBUG: 'true'

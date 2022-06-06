@@ -11,34 +11,23 @@
 [![Issues][badge_issues]][link_issues]
 [![License][badge_license]][link_license]
 
-This repository contains source files of docker image (and [github action][github_actions_doc]) for markdown files linting. Additionally we provides setting _(rules)_ for the most useful cases, like changelog file linting.
+This repository contains source files of docker image (and [GitHub action][github_actions_doc]) for markdown files linting. Additionally, we provide setting _(rules)_ for the most useful cases, like changelog file linting.
 
 All docker images always can be found on **[this page][link_hub_tags]**.
 
 ## Usage
 
-This image contains [markdownlint-cli][markdownlint-cli] (node-js) and:
+This image contains [markdownlint-cli2][markdownlint-cli2] (node-js) and:
 
 - Additional rules for `changelog` file linting _(`/lint/rules/changelog.js`)_
 - Configuration file for `changelog` file linting _(it uses additional linting rules, `/lint/config/changelog.yml`)_
 
-> Major image tag can be updated in any time, but all changes will be backwards compatible.
+> Major image tag can be updated in any time.
 
-`markdownlint-cli` supports next options (more details can be found [on project page][markdownlint-cli]):
+`markdownlint-cli2` relies on [markdown-lint configuration](https://github.com/DavidAnson/markdownlint/blob/main/README.md#configuration) and thus does not offer special configuration files and relies on [glob patterns] only. More details can be found [on the project page][markdownlint-cli2].
 
-```bash
-Usage: markdownlint [options] <files|directories|globs>
-
-Options:
-  -h, --help                                  output usage information
-  -V, --version                               output the version number
-  -f, --fix                                   fix basic errors (does not work with STDIN)
-  -s, --stdin                                 read from STDIN (does not work with files)
-  -o, --output [outputFile]                   write issues to file (no console)
-  -c, --config [configFile]                   configuration file (JSON, JSONC, or YAML)
-  -i, --ignore [file|directory|glob]          files to ignore/exclude
-  -r, --rules  [file|directory|glob|package]  custom rule files
-```
+For using special rule files, there is `markdownlint-cli2-config`.
+For triggering automatic fixing, there is `markdownlint-cli2-fix`.
 
 ### Environment variables
 
@@ -46,11 +35,11 @@ Some linter execution options can be passed through environment variables _(mult
 
 Environment variable    | Interpretation
 ----------------------- | --------------
-`INPUT_RULES=/foo.js`   | `markdownlint --rules /foo.js ...`
-`INPUT_CONFIG=/bar.yml` | `markdownlint --config /bar.yml ...`
-`INPUT_FIX=true`        | `markdownlint --fix ...`
-`INPUT_OUTPUT=/foo`     | `markdownlint --output /foo ...`
-`INPUT_IGNORE=/bar`     | `markdownlint --ignore /bar ...`
+`INPUT_CONFIG=/bar.yml` | `markdownlint-cli2-config /bar.yml ...`
+`INPUT_FIX=true`        | Execute `markdownlint-cli2-fix ...`
+`DEBUG=true`            | Output environment variables and the calculated arguments
+
+Note that due to the design on `markdownlint-cli2`, `INPUT_CONFIG` and `INPUT_FIX` are mutually exclusive.
 
 ### Docker
 
@@ -120,5 +109,8 @@ MIT. Use anywhere for your pleasure.
 [link_license]:https://github.com/avto-dev/markdown-lint/blob/master/LICENSE
 [link_issues]:https://github.com/avto-dev/markdown-lint/issues
 [link_actions]:https://github.com/avto-dev/markdown-lint/actions
-[markdownlint-cli]:https://github.com/igorshubovych/markdownlint-cli
+[markdownlint-cli2]:https://github.com/DavidAnson/markdownlint-cli2
 [github_actions_doc]:https://help.github.com/en/actions
+[glob patterns]:https://github.com/sindresorhus/globby#globbing-patterns
+
+<!-- markdownlint-disable-file MD033 MD041 -->

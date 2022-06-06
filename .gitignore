@@ -1,3 +1,8 @@
+# created by a workaround for https://github.com/DavidAnson/markdownlint-cli2/issues/50
+tests/.markdownlint.yml
+tests/.markdownlint-cli2.yaml
+tests/changelog.js
+
 # IDEs
 /nbproject
 /.idea
