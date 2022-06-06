@@ -1,35 +1,25 @@
 #!/bin/bash
+
+# This enables "**/*.md" to also recurse into sub directories
+# In case this is not present, `args: '**/*.md*` in a GitHub workflow will find `*.md` at depth 1 only, because it is expaned in this file (and not by markdownlint-cli2)
 shopt -s globstar
 
-RUN_ARGS="";
-
-if [ "$INPUT_RULES" != "" ]; then
-  RUN_ARGS="$RUN_ARGS --rules $INPUT_RULES";
-fi;
+# default to "normal" executable
+TOOL_AND_ARGS="markdownlint-cli2";
 
 if [ "$INPUT_CONFIG" != "" ]; then
-  RUN_ARGS="$RUN_ARGS --config $INPUT_CONFIG";
+  TOOL_AND_ARGS="markdownlint-cli2-config $INPUT_CONFIG";
 fi;
 
 if [ "$INPUT_FIX" = "true" ]; then
-  RUN_ARGS="$RUN_ARGS --fix";
-fi;
-
-if [ "$INPUT_OUTPUT" != "" ]; then
-  RUN_ARGS="$RUN_ARGS --output $INPUT_OUTPUT";
-fi;
-
-if [ "$INPUT_IGNORE" != "" ]; then
-  for ignore in $INPUT_IGNORE; do
-    RUN_ARGS="$RUN_ARGS --ignore $ignore";
-  done
+  TOOL_AND_ARGS="markdownlint-cli2-fix";
 fi;
 
 if [ "$DEBUG" = "true" ]; then
   printenv | sort;
-  echo "$RUN_ARGS";
+  echo "$TOOL_AND_ARGS $@";
 fi;
 
 # Do not quote "$@" as Github Actions passes each argument as a single arg.
-# So 'args: --fix foo bar.md' would be treated as a single string and not be parsed by markdownlint
-exec /usr/local/bin/markdownlint $RUN_ARGS $@
+# So 'args: foo bar.md' would be treated as a single string and not be parsed by markdownlint
+exec $TOOL_AND_ARGS $@

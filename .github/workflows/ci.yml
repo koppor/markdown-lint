@@ -20,54 +20,52 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
     runs-on: ubuntu-20.04
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
+        uses: actions/checkout@v3
 
       - name: Build image
         run: docker build -t markdown-lint:local -f Dockerfile .
 
+      - name: Apply workarounds
+        run: |
+          # workaround for https://github.com/DavidAnson/markdownlint-cli2/issues/50
+          cp -r lint/changelog/. tests/
+          # undo workaround for https://github.com/DavidAnson/markdownlint-cli2/issues/49
+          cd tests
+          sed -i s#/lint/changelog#.# .markdownlint-cli2.yaml
       - name: Execute tests
-        run: docker run --rm -t -v "$(pwd)/tests:/tests" -w "/tests" --entrypoint "" markdown-lint:local /tests/run.sh
+        run: docker run --rm -t -v "$(pwd)/tests:/tests" -w "/tests" --entrypoint "" markdown-lint:local ./run.sh
 
   docker-image:
     name: Build docker image
     runs-on: ubuntu-20.04
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
+        uses: actions/checkout@v3
 
       - name: Build image
         run: docker build -t markdown-lint:local -f Dockerfile .
 
       - name: Try to execute
-        run: docker run --rm markdown-lint:local --version
+        run: docker run --rm -t -v "$(pwd)/tests:/tests" -w "/tests" markdown-lint:local "samples/correct/sample-1.md"
 
   run-as-action:
     name: Run action
     runs-on: ubuntu-20.04
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
-
-      - name: Run current action using changelog file
-        uses: ./
-        with:
-          rules: '/lint/rules/changelog.js'
-          config: '/lint/config/changelog.yml'
-          args: './CHANGELOG.md'
-          ignore: './foo ./bar'
-        env:
-          DEBUG: 'true'
+        uses: actions/checkout@v3
 
       - name: Run current action using stub markdown file
         uses: ./
         with:
           args: './tests/correct.md'
-          ignore: './foo ./bar'
+        env:
+          DEBUG: 'true'
+
+      - name: Run current action using changelog file
+        uses: ./
+        with:
+          config: '/lint/changelog/.markdownlint-cli2.yaml'
+          args: './CHANGELOG.md'
         env:
           DEBUG: 'true'

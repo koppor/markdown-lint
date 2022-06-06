@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog][keepachangelog] and this project adheres to [Semantic Versioning][semver].
 
+## [unreleased]
+
+### Changed
+
+- Switched from [markdownlint-cli](https://github.com/igorshubovych/markdownlint-cli#markdownlint-cli) to [markdownlint-cli2](https://github.com/DavidAnson/markdownlint-cli2#markdownlint-cli2), because a) it is faster and b) it is more closer to the VS Code extensions. [#17](https://github.com/avto-dev/markdown-lint/issues/17)
+- Switch Docker base image to `davidanson/markdownlint-cli2:0.4.0`
+- Collect all `CHANGELOG.md` linting configuration in `lint/changelog`
+
+### Removed
+
+- Remove `INPUT_RULES`. Rules have to be included via the `markdownlint-cli2.yaml` config file.
+- Remove `INPUT_OUTPUT`. Output needs to be redirected normal shell pipe operations.
+- Remove `INPUT_IGNORE`. Files to ignore have to be passed using glob patterns.
+
 ## v1.5.1 - 2021-09-10
 
 ### Fixed

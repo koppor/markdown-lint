@@ -3,24 +3,15 @@ description: GitHub Action to run markdown linter
 author: avto-dev
 
 inputs: # <https://git.io/JvkYF#inputs>
-  rules:
-    description: 'Custom rule files (file|directory|glob|package)'
-    required: false
   config:
-    description: 'Configuration file (JSON, JSONC, or YAML)'
+    description: 'Configuration file (JSON, JSONC, or YAML) for markdownlint-cli2 (e.g., `.markdownlint-cli2.yaml`). Place a custom configuration file (e.g., .markdownlint.yml) next to this file to enable loading of it.'
     required: false
   fix:
     description: 'Fix basic errors'
     required: false
     default: 'false'
-  output:
-    description: 'Write issues to file'
-    required: false
-  ignore:
-    description: 'Files to ignore/exclude'
-    required: false
   args: # do not change this name! reason: <https://git.io/Jvk8K> (usage as named action and docker image with same syntax)
-    description: 'Files (directories|globs) for a work or any additional arguments'
+    description: 'Files (globs) for a work or any additional arguments'
     required: true
 
 runs: # <https://git.io/JvkYF#runs>

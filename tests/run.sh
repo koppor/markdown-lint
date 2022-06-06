@@ -12,15 +12,14 @@ runChangelogTest() {
     (>&2 echo "[ERROR] Input file $input_file was not found") && exit 50;
   fi;
 
-  output=$(/usr/local/bin/markdownlint \
-    --rules /lint/rules/changelog.js \
-    --config /lint/config/changelog.yml \
+  output=$(markdownlint-cli2-config \
+    /lint/changelog/.markdownlint-cli2.yml \
     "$input_file" 2>&1);
 
   exit_code=$?;
 
   if [ "$want_error" = "false" ] && [ $exit_code -ne 0 ]; then
-    (>&2 echo "$0: [ERROR] Exit code must equals 0. Output [$output]") && exit 50;
+    (>&2 echo "$0: [ERROR] Exit code must equal 0. Output [$output]") && exit 50;
   fi;
 
   if [ "$want_error" = "true" ] && [ $exit_code -eq 0 ]; then
@@ -41,7 +40,7 @@ runChangelogTest ./samples/changelog/incorrect/changes-list-with-ends-punctuatio
 runChangelogTest ./samples/changelog/incorrect/changes-list-with-ends-punctuation-2.md true "Lists items without punctuation"
 runChangelogTest ./samples/changelog/incorrect/incorrect-cahnges-type-1.md true "Type of changes format"
 runChangelogTest ./samples/changelog/incorrect/incorrect-cahnges-type-2.md true "Type of changes format"
-runChangelogTest ./samples/changelog/incorrect/missed-first-header.md true "First line in file should be a top"
+runChangelogTest ./samples/changelog/incorrect/missed-first-header.md true "First line in a file should be a top-level heading"
 runChangelogTest ./samples/changelog/incorrect/no-proper-link.md true "Version header format"
 runChangelogTest ./samples/changelog/incorrect/wrong-version-header-1.md true "Version header format"
 runChangelogTest ./samples/changelog/incorrect/wrong-version-header-2.md true "Version header format"
