@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# This enables "**/*.md" to also recurse into sub directories
+# In case this is not present, `args: '**/*.md*` in a GitHub workflow will find `*.md` at depth 1 only, because it is expaned in this file (and not by markdownlint-cli2)
+shopt -s globstar
+
 # default to "normal" executable
 TOOL_AND_ARGS="markdownlint-cli2";
 
