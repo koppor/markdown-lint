@@ -13,4 +13,4 @@ LABEL \
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
 COPY lint /lint
 
-ENTRYPOINT ["sh","/docker-entrypoint.sh"]
+ENTRYPOINT ["bash", "/docker-entrypoint.sh"]
