@@ -1,4 +1,5 @@
 # The file extension of this file needs to be `yaml`, because `yml` is not supported
 
 customRules:
-  - "./changelog.js"
+  # workaround for https://github.com/DavidAnson/markdownlint-cli2/issues/49
+  - "/lint/changelog/changelog.js"
