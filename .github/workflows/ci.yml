@@ -30,9 +30,11 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
       - name: Apply workarounds
         run: |
           # workaround for https://github.com/DavidAnson/markdownlint-cli2/issues/50
+          ls -la lint/changelog
           cp lint/changelog/* tests/
           # undo workaround for https://github.com/DavidAnson/markdownlint-cli2/issues/49
           cd tests
+          ls -la
           sed -i s#/lint/changelog#.# .markdownlint-cli2.yaml
       - name: Execute tests
         run: docker run --rm -t -v "$(pwd)/tests:/tests" -w "/tests" --entrypoint "" markdown-lint:local ./run.sh
