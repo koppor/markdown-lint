@@ -10,7 +10,10 @@ LABEL \
     org.opencontainers.image.licenses="MIT"
 
 # We need "bash" for shopt (used in docker-entrypoint.sh)
-RUN sudo apk add --no-cache bash
+USER root
+RUN apk add --no-cache bash
+
+USER node
 
 # copy additional image files
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
